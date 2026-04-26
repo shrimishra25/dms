@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,17 @@ public class SadhanaService {
     }
 
     public List<SadhanaRecord> getRecordsByCounsellor(String counsellorName) {
-        return sadhanaRepository.findTeamReport(counsellorName);
+
+        List<SadhanaRecord> sadhanaRecords = sadhanaRepository.findTeamReport(counsellorName);
+
+        List<SadhanaRecord> list = sadhanaRecords.stream().collect(Collectors
+                        .toMap(a -> a.getUsername(),
+                                report -> report,
+                                (existing, replacement)
+                                        -> existing.getDate().isAfter(replacement.getDate()) ? existing : replacement))
+                .values().stream().toList();
+
+        return list;
+        //return sadhanaRepository.findTeamReport(counsellorName);
     }
 }
