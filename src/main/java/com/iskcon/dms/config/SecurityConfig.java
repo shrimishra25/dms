@@ -42,29 +42,12 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth
-                -> auth.requestMatchers("/authenticate/**").permitAll()
+                -> auth.requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/authenticate/**").permitAll()
                 .anyRequest().authenticated()).sessionManagement(session
                 -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                         .build();
-
-        /*// diable csrf
-        HttpSecurity disabledCsrf = httpSecurity.csrf(csrf -> csrf.disable());
-
-        // entry for all endpoint start from authenticate
-        HttpSecurity authenticateEndpoint = disabledCsrf.authorizeHttpRequests(auth
-                -> auth.requestMatchers("/authenticate/**").permitAll()
-                .anyRequest().authenticated());
-
-        // define session
-        HttpSecurity SessionPolicy = authenticateEndpoint.sessionManagement(session
-                -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        // define our own custom filter
-        HttpSecurity addCustomFilter = SessionPolicy.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // return filter
-        return addCustomFilter.build();*/
     }
 
     @Bean

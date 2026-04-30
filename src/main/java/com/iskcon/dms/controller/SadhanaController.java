@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/sadhana")
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 public class SadhanaController {
 
     Logger logger = LoggerFactory.getLogger(SadhanaController.class);
