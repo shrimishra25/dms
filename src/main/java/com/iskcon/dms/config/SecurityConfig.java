@@ -1,6 +1,9 @@
 package com.iskcon.dms.config;
 
 import com.iskcon.dms.filter.JwtFilter;
+import org.apache.juli.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +31,11 @@ public class SecurityConfig {
     @Value("${frontend.url}")
     private String frontendUrl;
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
+        logger.info("SecurityConfig {}",frontendUrl);
         return httpSecurity
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();

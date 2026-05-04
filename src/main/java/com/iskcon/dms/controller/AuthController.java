@@ -1,5 +1,6 @@
 package com.iskcon.dms.controller;
 
+import com.iskcon.dms.config.SecurityConfig;
 import com.iskcon.dms.entity.AuthReponse;
 import com.iskcon.dms.entity.LoginRequest;
 import com.iskcon.dms.entity.User;
@@ -8,6 +9,9 @@ import com.iskcon.dms.repository.UserRepository;
 import com.iskcon.dms.service.MyUserDetailsService;
 import com.iskcon.dms.service.SadhanaService;
 import com.iskcon.dms.utils.JwtUtils;
+import org.apache.juli.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,9 +38,11 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
-        System.out.println("Login Controller");
+        log.info("Login Request:{}", loginRequest);
 
         String userName = loginRequest.getUsername();
 
